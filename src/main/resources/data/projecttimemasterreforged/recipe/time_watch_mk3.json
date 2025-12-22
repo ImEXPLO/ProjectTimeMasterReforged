@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "KPK",
+    "PSP",
+    "KPK"
+  ],
+  "key": {
+    "S": {
+      "item": "projecte:philosophers_stone"
+    },
+    "K": {
+      "item": "projecte:klein_star_omega"
+    },
+    "P": {
+      "item": "projecttimemasterreforged:time_watch_mk2"
+    }
+  },
+  "result": {
+    "id": "projecttimemasterreforged:time_watch_mk3",
+    "count": 1
+  }
+}

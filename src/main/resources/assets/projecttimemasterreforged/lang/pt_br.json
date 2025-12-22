@@ -1,0 +1,25 @@
+{
+  "item.projecttimemasterreforged.time_watch_mk2": "Relógio do Tempo MK2",
+  "item.projecttimemasterreforged.time_watch_mk3": "Relógio do Tempo MK3",
+  "item.projecttimemasterreforged.time_watch_mk4": "Relógio do Tempo MK4",
+  "item.projecttimemasterreforged.time_watch_mk5": "Relógio do Tempo MK5",
+  "item.projecttimemasterreforged.time_watch_mk6": "Relógio do Tempo MK6",
+  "item.projecttimemasterreforged.time_watch_mk7": "Relógio do Tempo MK7",
+  "item.projecttimemasterreforged.time_watch_mk8": "Relógio do Tempo MK8",
+
+  "itemGroup.projecttimemasterreforged_tab": "Project Time: Reforged",
+
+  "message.projecttimemasterreforged.activated": "Relógio Ativado!",
+  "message.projecttimemasterreforged.deactivated": "Relógio Desativado!",
+
+  "tooltip.projecttimemasterreforged.bonus_ticks": "Ticks Bônus: %s",
+  "tooltip.projecttimemasterreforged.radius_area": "Raio: %sx%s",
+  "tooltip.projecttimemasterreforged.status": "Estado: %s",
+  "tooltip.projecttimemasterreforged.status.on": "LIGADO",
+  "tooltip.projecttimemasterreforged.status.off": "DESLIGADO",
+  "tooltip.projecttimemasterreforged.tier": "Nível: %s",
+
+  "pedestal.projecttimemasterreforged.mode": "Modo: Aceleração Temporal",
+  "pedestal.projecttimemasterreforged.speed": "Velocidade: %s ticks",
+  "pedestal.projecttimemasterreforged.radius": "Raio: %s blocos"
+}

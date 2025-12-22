@@ -1,0 +1,25 @@
+{
+  "item.projecttimemasterreforged.time_watch_mk2": "Time Watch MK2",
+  "item.projecttimemasterreforged.time_watch_mk3": "Time Watch MK3",
+  "item.projecttimemasterreforged.time_watch_mk4": "Time Watch MK4",
+  "item.projecttimemasterreforged.time_watch_mk5": "Time Watch MK5",
+  "item.projecttimemasterreforged.time_watch_mk6": "Time Watch MK6",
+  "item.projecttimemasterreforged.time_watch_mk7": "Time Watch MK7",
+  "item.projecttimemasterreforged.time_watch_mk8": "Time Watch MK8",
+
+  "itemGroup.projecttimemasterreforged_tab": "Project Time: Reforged",
+
+  "message.projecttimemasterreforged.activated": "Time Watch Activated!",
+  "message.projecttimemasterreforged.deactivated": "Time Watch Deactivated!",
+
+  "tooltip.projecttimemasterreforged.bonus_ticks": "Bonus Ticks: %s",
+  "tooltip.projecttimemasterreforged.radius_area": "Radius: %sx%s",
+  "tooltip.projecttimemasterreforged.status": "Status: %s",
+  "tooltip.projecttimemasterreforged.status.on": "ACTIVE",
+  "tooltip.projecttimemasterreforged.status.off": "INACTIVE",
+  "tooltip.projecttimemasterreforged.tier": "Tier: %s",
+
+  "pedestal.projecttimemasterreforged.mode": "Mode: Time Acceleration",
+  "pedestal.projecttimemasterreforged.speed": "Speed: %s ticks",
+  "pedestal.projecttimemasterreforged.radius": "Radius: %s blocks"
+}

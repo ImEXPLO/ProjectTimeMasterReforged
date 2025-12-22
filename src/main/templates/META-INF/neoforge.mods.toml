@@ -1,0 +1,50 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT"
+# issueTrackerURL é o melhor lugar para o GitHub se você quiser manter o YouTube como principal
+issueTrackerURL="https://github.com/ImEXPLO/ProjectTimeMasterReforged"
+
+[[mods]]
+modId="projecttimemasterreforged"
+version="1.0.0"
+displayName="Project Time Master: Reforged"
+displayURL="https://www.youtube.com/c/ExploGaming"
+logoFile="logo.png"
+credits="Created by EXPLO. Based on ProjectE and a fork of Project Time Master."
+authors="EXPLO"
+description='''
+Master time and matter once again!
+
+Project Time Master: Reforged is a dedicated addon for ProjectE and a modern fork of the original 'Project Time Master' mod, buit built specifically for Minecraft 1.21 and newer versions. It brings back the powerful Time Watches with overhauled mechanics, massive power tiers, and total control over your world's tick speed.
+
+Features:
+- Tile Entity Acceleration (Machines, Modded Crops, etc.)
+- Day/Night Cycle Control (Fast-forward time)
+- 8 Power Tiers with configurable ranges and speed multipliers.
+- Full EMC Integration and progression.
+'''
+
+# NeoForge
+[[dependencies.projecttimemasterreforged]]
+modId="neoforge"
+mandatory=true
+# Requer NeoForge para MC 1.21.1 ou superior
+versionRange="[21.1,)"
+ordering="NONE"
+side="BOTH"
+
+# Minecraft
+[[dependencies.projecttimemasterreforged]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.21,1.22)"
+ordering="NONE"
+side="BOTH"
+
+# ProjectE
+[[dependencies.projecttimemasterreforged]]
+modId="projecte"
+mandatory=true
+versionRange="[1.0.0,)"
+ordering="AFTER"
+side="BOTH"
