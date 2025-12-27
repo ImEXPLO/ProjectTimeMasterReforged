@@ -1,6 +1,20 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "item/generated",
   "textures": {
     "layer0": "projecttimemasterreforged:item/time_watch_mk2"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": { "projecttimemasterreforged:mode": 1.0 },
+      "model": "projecttimemasterreforged:item/time_watch_mk2_on"
+    },
+    {
+      "predicate": { "projecttimemasterreforged:mode": 2.0 },
+      "model": "projecttimemasterreforged:item/time_watch_mk2_on"
+    },
+    {
+      "predicate": { "projecttimemasterreforged:mode": 3.0 },
+      "model": "projecttimemasterreforged:item/time_watch_mk2_on"
+    }
+  ]
 }

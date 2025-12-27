@@ -1,42 +1,39 @@
 package com.explo.projecttimereforged;
 
-import com.explo.projecttimereforged.items.TimeWatchMK2;
+import com.explo.projecttimereforged.items.TimeWatchItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class ModItems {
+
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(ProjectTimeMasterReforged.MODID);
 
-    // MK2 (1.5x, Raio 3)
-    public static final DeferredItem<Item> TIMEWATCH_MK2 = ITEMS.register("time_watch_mk2",
-            () -> new TimeWatchMK2(1.5, "MK2", 0xFF5555, 3));
+    // --- RELÓGIOS (MK2 ao MK8) ---
 
-    // MK3 (2.0x, Raio 5)
-    public static final DeferredItem<Item> TIMEWATCH_MK3 = ITEMS.register("time_watch_mk3",
-            () -> new TimeWatchMK2(2.0, "MK3", 0xFFAA00, 5));
+    public static final DeferredItem<Item> TIME_WATCH_MK2 = ITEMS.register("time_watch_mk2",
+            () -> new TimeWatchItem(2));
 
-    // MK4 (2.5x, Raio 7)
-    public static final DeferredItem<Item> TIMEWATCH_MK4 = ITEMS.register("time_watch_mk4",
-            () -> new TimeWatchMK2(2.5, "MK4", 0xFFFF55, 7));
+    public static final DeferredItem<Item> TIME_WATCH_MK3 = ITEMS.register("time_watch_mk3",
+            () -> new TimeWatchItem(3));
 
-    // MK5 (3.0x, Raio 9)
-    public static final DeferredItem<Item> TIMEWATCH_MK5 = ITEMS.register("time_watch_mk5",
-            () -> new TimeWatchMK2(3.0, "MK5", 0x55FF55, 9));
+    public static final DeferredItem<Item> TIME_WATCH_MK4 = ITEMS.register("time_watch_mk4",
+            () -> new TimeWatchItem(4));
 
-    // MK6 (3.5x, Raio 12)
-    public static final DeferredItem<Item> TIMEWATCH_MK6 = ITEMS.register("time_watch_mk6",
-            () -> new TimeWatchMK2(3.5, "MK6", 0x55FFFF, 12));
+    public static final DeferredItem<Item> TIME_WATCH_MK5 = ITEMS.register("time_watch_mk5",
+            () -> new TimeWatchItem(5));
 
-    // MK7 (4.0x, Raio 16 - Um Chunk)
-    public static final DeferredItem<Item> TIMEWATCH_MK7 = ITEMS.register("time_watch_mk7",
-            () -> new TimeWatchMK2(4.0, "MK7", 0x5555FF, 16));
+    public static final DeferredItem<Item> TIME_WATCH_MK6 = ITEMS.register("time_watch_mk6",
+            () -> new TimeWatchItem(6));
 
-    // MK8 (4.5x, Raio 32 - Área Gigante)
-    public static final DeferredItem<Item> TIMEWATCH_MK8 = ITEMS.register("time_watch_mk8",
-            () -> new TimeWatchMK2(4.5, "MK8", 0xFF55FF, 32));
+    public static final DeferredItem<Item> TIME_WATCH_MK7 = ITEMS.register("time_watch_mk7",
+            () -> new TimeWatchItem(7));
 
+    public static final DeferredItem<Item> TIME_WATCH_MK8 = ITEMS.register("time_watch_mk8",
+            () -> new TimeWatchItem(8));
+
+    // --- REGISTRO ---
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
