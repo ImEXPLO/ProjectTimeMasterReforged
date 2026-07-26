@@ -4,7 +4,19 @@
     {
       "model": "projecttimemasterreforged:item/time_watch_mk4_on",
       "predicate": {
-        "projecte:active": 1.0
+        "projecttimemasterreforged:mode": 1.0
+      }
+    },
+    {
+      "model": "projecttimemasterreforged:item/time_watch_mk4_on",
+      "predicate": {
+        "projecttimemasterreforged:mode": 2.0
+      }
+    },
+    {
+      "model": "projecttimemasterreforged:item/time_watch_mk4_on",
+      "predicate": {
+        "projecttimemasterreforged:mode": 3.0
       }
     }
   ],

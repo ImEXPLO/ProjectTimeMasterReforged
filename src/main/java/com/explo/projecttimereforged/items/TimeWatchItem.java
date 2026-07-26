@@ -2,6 +2,7 @@ package com.explo.projecttimereforged.items;
 
 import com.explo.projecttimereforged.ProjectTimeMasterReforged;
 import com.explo.projecttimereforged.config.CommonConfig;
+import com.explo.projecttimereforged.util.ModTags;
 
 import moze_intel.projecte.api.capabilities.item.IPedestalItem;
 import moze_intel.projecte.api.block_entity.IDMPedestal;
@@ -27,7 +28,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -53,11 +53,28 @@ public class TimeWatchItem extends Item implements IPedestalItem {
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
         if (level.isClientSide || !(level instanceof ServerLevel serverLevel)) return;
 
+        // Só processa se o relógio estiver em uma das mãos de um jogador,
+        // evitando que várias cópias na mochila multipliquem o efeito.
+        if (!(entity instanceof Player player)) return;
+        if (player.getMainHandItem() != stack && player.getOffhandItem() != stack) return;
+
         int mode = getMode(stack);
+        if (mode == MODE_OFF) return;
+
+        // Aceleração de blocos ao redor do jogador: ativa em qualquer modo
+        // diferente de OFF; o modo define apenas o efeito no tempo global.
+        accelerateArea(serverLevel, player.blockPosition(), 4, getConfigSpeed(this.tier));
 
         int speed = getConfigSpeed(this.tier) * 10;
 
         applyWorldTimeMagic(serverLevel, speed, mode);
+    }
+
+    private void accelerateArea(ServerLevel level, BlockPos center, int range, int bonusTicks) {
+        for (BlockPos currentPos : BlockPos.betweenClosed(center.offset(-range, -range, -range), center.offset(range, range, range))) {
+            if (currentPos.equals(center)) continue;
+            tickBlock(level, currentPos.immutable(), bonusTicks);
+        }
     }
 
     private void applyWorldTimeMagic(ServerLevel serverLevel, int speed, int mode) {
@@ -84,17 +101,6 @@ public class TimeWatchItem extends Item implements IPedestalItem {
                 }
                 break;
         }
-
-        // Lógica de Limpeza (Anti-Congelamento)
-        // Se NÃO estivermos em modo STOP, garantimos que o tempo esteja correndo.
-        // Isso agora roda também quando o modo é OFF.
-        if (mode != MODE_STOP) {
-            GameRules rules = serverLevel.getGameRules();
-            // Só ativa se estiver desativado
-            if (!rules.getBoolean(GameRules.RULE_DAYLIGHT)) {
-                rules.getRule(GameRules.RULE_DAYLIGHT).set(true, serverLevel.getServer());
-            }
-        }
     }
 
     // =========================================================
@@ -107,17 +113,7 @@ public class TimeWatchItem extends Item implements IPedestalItem {
             int range = 4; // Raio 9x9x9
             int speed = getConfigSpeed(this.tier);
 
-            AABB area = new AABB(pos).inflate(range);
-
-            for (int x = (int) area.minX; x <= area.maxX; x++) {
-                for (int y = (int) area.minY; y <= area.maxY; y++) {
-                    for (int z = (int) area.minZ; z <= area.maxZ; z++) {
-                        BlockPos currentPos = new BlockPos(x, y, z);
-                        if (currentPos.equals(pos)) continue;
-                        tickBlock(serverLevel, currentPos, speed);
-                    }
-                }
-            }
+            accelerateArea(serverLevel, pos, range, speed);
             return false;
         }
         return false;
@@ -128,17 +124,24 @@ public class TimeWatchItem extends Item implements IPedestalItem {
         BlockEntity be = level.getBlockEntity(pos);
 
         if (state.isAir()) return;
+        if (state.is(ModTags.Blocks.ACCELERATION_BLACKLIST)) return;
 
-        for (int i = 0; i < bonusTicks; i++) {
-            if (state.isRandomlyTicking()) {
-                state.randomTick(level, pos, level.random);
-            }
-            if (be != null && !be.isRemoved()) {
-                BlockEntityTicker<BlockEntity> ticker = state.getTicker(level, (BlockEntityType<BlockEntity>) be.getType());
-                if (ticker != null) {
-                    ticker.tick(level, pos, state, be);
+        try {
+            for (int i = 0; i < bonusTicks; i++) {
+                if (state.isRandomlyTicking()) {
+                    state.randomTick(level, pos, level.random);
+                }
+                if (be != null && !be.isRemoved()) {
+                    BlockEntityTicker<BlockEntity> ticker = state.getTicker(level, (BlockEntityType<BlockEntity>) be.getType());
+                    if (ticker != null) {
+                        ticker.tick(level, pos, state, be);
+                    }
                 }
             }
+        } catch (Exception e) {
+            // Blocos de outros mods podem não suportar ticks forçados; isola a
+            // falha para não derrubar o tick do servidor, mas deixa rastro no log.
+            ProjectTimeMasterReforged.LOGGER.error("Failed to accelerate block {} at {}", state.getBlock(), pos, e);
         }
     }
 
@@ -178,6 +181,16 @@ public class TimeWatchItem extends Item implements IPedestalItem {
         int currentMode = getMode(stack);
         int nextMode = (currentMode + 1) % 4;
         setMode(stack, nextMode);
+
+        // Anti-Congelamento: ao sair do modo STOP, devolve o ciclo do dia.
+        // A restauração acontece na transição de modo (e não a cada tick) para
+        // não sobrescrever /gamerule ajustado manualmente por admins.
+        if (currentMode == MODE_STOP && player.level() instanceof ServerLevel serverLevel) {
+            GameRules rules = serverLevel.getGameRules();
+            if (!rules.getBoolean(GameRules.RULE_DAYLIGHT)) {
+                rules.getRule(GameRules.RULE_DAYLIGHT).set(true, serverLevel.getServer());
+            }
+        }
 
         String modeKey = getModeTranslationKey(nextMode);
         ChatFormatting color = switch (nextMode) {

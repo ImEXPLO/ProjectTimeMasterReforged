@@ -2,6 +2,8 @@ package com.explo.projecttimereforged;
 
 import com.explo.projecttimereforged.config.CommonConfig;
 import com.explo.projecttimereforged.items.TimeWatchItem;
+import com.mojang.logging.LogUtils;
+import org.slf4j.Logger;
 import moze_intel.projecte.api.capabilities.PECapabilities;
 import moze_intel.projecte.api.capabilities.item.IPedestalItem;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -23,6 +25,7 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 @Mod(ProjectTimeMasterReforged.MODID)
 public class ProjectTimeMasterReforged {
     public static final String MODID = "projecttimemasterreforged";
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public ProjectTimeMasterReforged(ModContainer modContainer, IEventBus modEventBus) {
         ModItems.register(modEventBus);

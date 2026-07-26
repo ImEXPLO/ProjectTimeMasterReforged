@@ -1,0 +1,14 @@
+-proc:none
+-nowarn
+-cp
+build/moddev/artifacts/neoforge-21.1.217-merged.jar;C:\\Users\\Vitão/.gradle/caches/modules-2/files-2.1/net.neoforged/bus/8.0.5/5b2d33285ab5d1554e9798ad98c40d6ea3868bd5/bus-8.0.5.jar;C:\\Users\\Vitão/.gradle/caches/modules-2/files-2.1/net.neoforged.fancymodloader/loader/4.0.42/76e15f98bf676fb44b36c5e776f52a55581ec43a/loader-4.0.42.jar;C:\\Users\\Vitão/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-api/2.0.9/7cf2726fdcfbc8610f9a71fb3ed639871f315340/slf4j-api-2.0.9.jar;C:\\Users\\Vitão/.gradle/caches/modules-2/files-2.1/com.mojang/logging/1.2.7/24cb95ffb0e3433fd6e844c04e68009e504ca1c0/logging-1.2.7.jar;C:\\Users\\Vitão/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/24.1.0/7af6a669488450c4a07c2c3254e2151df42d7d04/annotations-24.1.0.jar;C:\\Users\\Vitão/.gradle/caches/modules-2/files-2.1/curse.maven/projecte-226410/6611984/24fb5997727453a15e956522761a3f586e646c2a/projecte-226410-6611984.jar;C:\\Users\\Vitão/.gradle/caches/modules-2/files-2.1/com.mojang/datafixerupper/8.0.16/67d4de6d7f95d89bcf5862995fb854ebaec02a34/datafixerupper-8.0.16.jar;C:\\Users\\Vitão/.gradle/caches/modules-2/files-2.1/com.mojang/brigadier/1.3.10/d15b53a14cf20fdcaa98f731af5dda654452c010/brigadier-1.3.10.jar
+-d
+C:/Users/VITO~1/AppData/Local/Temp/claude/C--Users-Vit-o-Desktop-Project-LiGOL-ligol/9b9d962f-5db6-4280-b688-ab410784d96e/scratchpad/ptmr_classes
+src/main/java/com/explo/projecttimereforged/Config.java
+src/main/java/com/explo/projecttimereforged/ModCreativeTabs.java
+src/main/java/com/explo/projecttimereforged/ModItems.java
+src/main/java/com/explo/projecttimereforged/ProjectTimeMasterReforged.java
+src/main/java/com/explo/projecttimereforged/items/TimeWatchItem.java
+src/main/java/com/explo/projecttimereforged/items/TimeWatchMK2.java
+src/main/java/com/explo/projecttimereforged/config/CommonConfig.java
+src/main/java/com/explo/projecttimereforged/util/ModTags.java
