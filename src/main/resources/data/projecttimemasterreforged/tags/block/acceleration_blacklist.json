@@ -9,6 +9,8 @@
     "minecraft:structure_void",
     "minecraft:moving_piston",
     "minecraft:end_portal",
-    "minecraft:nether_portal"
+    "minecraft:nether_portal",
+    "minecraft:fire",
+    "minecraft:soul_fire"
   ]
 }

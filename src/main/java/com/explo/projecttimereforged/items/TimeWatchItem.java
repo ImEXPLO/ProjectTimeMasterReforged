@@ -22,7 +22,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -67,7 +66,7 @@ public class TimeWatchItem extends Item implements IPedestalItem {
 
         int speed = getConfigSpeed(this.tier) * 10;
 
-        applyWorldTimeMagic(serverLevel, speed, mode);
+        applyWorldTimeMagic(serverLevel, stack, speed, mode);
     }
 
     private void accelerateArea(ServerLevel level, BlockPos center, int range, int bonusTicks) {
@@ -77,7 +76,7 @@ public class TimeWatchItem extends Item implements IPedestalItem {
         }
     }
 
-    private void applyWorldTimeMagic(ServerLevel serverLevel, int speed, int mode) {
+    private void applyWorldTimeMagic(ServerLevel serverLevel, ItemStack stack, int speed, int mode) {
         switch (mode) {
             case MODE_FORWARD:
                 if (CommonConfig.ENABLE_TIME_SKIP.get()) {
@@ -94,13 +93,25 @@ public class TimeWatchItem extends Item implements IPedestalItem {
                 break;
             case MODE_STOP:
                 if (CommonConfig.ALLOW_STOP_TIME.get()) {
-                    GameRules rules = serverLevel.getGameRules();
-                    if (rules.getBoolean(GameRules.RULE_DAYLIGHT)) {
-                        rules.getRule(GameRules.RULE_DAYLIGHT).set(false, serverLevel.getServer());
-                    }
+                    // Congelamento por reafirmação: o vanilla avança o tempo e nós
+                    // devolvemos ao instante gravado. Sem gamerule envolvida, o efeito
+                    // cessa sozinho quando o relógio sai da mão.
+                    serverLevel.setDayTime(getFrozenTime(serverLevel, stack));
                 }
                 break;
         }
+    }
+
+    private long getFrozenTime(ServerLevel serverLevel, ItemStack stack) {
+        CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+        if (data.contains("FrozenTime")) {
+            return data.copyTag().getLong("FrozenTime");
+        }
+        // Itens salvos em STOP por versões antigas não têm o instante gravado;
+        // congela a partir do momento atual.
+        long now = serverLevel.getDayTime();
+        CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putLong("FrozenTime", now));
+        return now;
     }
 
     // =========================================================
@@ -182,14 +193,12 @@ public class TimeWatchItem extends Item implements IPedestalItem {
         int nextMode = (currentMode + 1) % 4;
         setMode(stack, nextMode);
 
-        // Anti-Congelamento: ao sair do modo STOP, devolve o ciclo do dia.
-        // A restauração acontece na transição de modo (e não a cada tick) para
-        // não sobrescrever /gamerule ajustado manualmente por admins.
-        if (currentMode == MODE_STOP && player.level() instanceof ServerLevel serverLevel) {
-            GameRules rules = serverLevel.getGameRules();
-            if (!rules.getBoolean(GameRules.RULE_DAYLIGHT)) {
-                rules.getRule(GameRules.RULE_DAYLIGHT).set(true, serverLevel.getServer());
-            }
+        // Ao entrar em STOP grava o instante a congelar; ao sair, descarta.
+        if (nextMode == MODE_STOP) {
+            long now = player.level().getDayTime();
+            CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putLong("FrozenTime", now));
+        } else if (currentMode == MODE_STOP) {
+            CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.remove("FrozenTime"));
         }
 
         String modeKey = getModeTranslationKey(nextMode);
